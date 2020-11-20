@@ -1,0 +1,1 @@
+In this folder you can find all the code concerning the test that are executed when you build the project using the makefile.
