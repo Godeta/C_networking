@@ -1,0 +1,11 @@
+#include "unity.h"
+#include "unity_fixture.h"
+
+TEST_GROUP_RUNNER(main)
+{
+  RUN_TEST_CASE(main, FindFunction_WhichIsBroken_ShouldReturnZeroIfItemIsNotInList_WhichWorksEvenInOurBrokenCode);
+  RUN_TEST_CASE(main, FindFunction_WhichIsBroken_ShouldReturnTheIndexForItemsInList_WhichWillFailBecauseOurFunctionUnderTestIsBroken);
+  RUN_TEST_CASE(main, FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounterValue);
+  RUN_TEST_CASE(main, FunctionWhichReturnsLocalVariable_ShouldReturnTheCurrentCounterValueAgain);
+  RUN_TEST_CASE(main, FunctionWhichReturnsLocalVariable_ShouldReturnCurrentCounter_ButFailsBecauseThisTestIsActuallyFlawed);
+}

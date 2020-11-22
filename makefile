@@ -1,7 +1,6 @@
 # ==========================================
+#   Makefile for my networking in C project, it uses Unity for the test
 #   Unity Project - A Test Framework for C
-#   Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
-#   [Released under MIT License. Please refer to license.txt for details]
 # ==========================================
 
 #We try to detect the OS we are running on, and adjust commands as needed
@@ -24,9 +23,10 @@ C_COMPILER=gcc
 ifeq ($(shell uname -s), Darwin)
 C_COMPILER=clang
 endif
-
+# where the unity files for testing are located
 UNITY_ROOT=./lib
 
+# to see precisely the errors and warnings
 CFLAGS=-std=c99
 CFLAGS += -Wall
 CFLAGS += -Wextra
@@ -43,27 +43,33 @@ CFLAGS += -Wundef
 CFLAGS += -Wold-style-definition
 #CFLAGS += -Wno-misleading-indentation
 
+# output file
 TARGET_BASE1=all_tests
 TARGET1 = $(TARGET_BASE1)$(TARGET_EXTENSION)
+# all the files
 SRC_FILES1=\
   $(UNITY_ROOT)/unity.c \
   $(UNITY_ROOT)/unity_fixture.c \
-  src/ProductionCode.c \
-  src/ProductionCode2.c \
-  test/TestProductionCode.c \
-  test/TestProductionCode2.c \
-  test/test_runners/TestProductionCode_Runner.c \
-  test/test_runners/TestProductionCode2_Runner.c \
+  src/main.c \
+  src/usefulFunctions.c \
+  src/TCP.c \
+  test/Testmain.c \
+  test/TestTCP.c \
+  test/test_runners/Testmain_Runner.c \
+  test/test_runners/TestTCP_Runner.c \
   test/test_runners/all_tests.c
 INC_DIRS=-Isrc -I$(UNITY_ROOT)
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
 
+# when we execute make all
 all: clean default
 
+# when we execute make, compile the project
 default:
 	$(C_COMPILER) $(CFLAGS) $(INC_DIRS) $(SYMBOLS) $(SRC_FILES1) -o $(TARGET1)
 	- ./$(TARGET1) -v
 
+# erase the compiled elements
 clean:
 	$(CLEANUP) $(TARGET1)
 
