@@ -5,14 +5,17 @@ A small project allowing the user to make clients or server, send messages with 
 ### Usage
 
 ```
-    # compile the program
+    # compile the program and execute the tests
     $ make
-
-    # erase the unused compiled files
-    $ make clean
     
     # start the program
-    $ ./networking_C
+    $ ./networkingC
+
+    # (optionnal) erase the unused compiled files
+    $ make clean
+
+    # (optionnal) compile only the tests
+    $ make tests
 ```
 
 ![](affichage.gif)

@@ -11,10 +11,12 @@ All the TCP related interactions, choose server/client, port number, int-char-ge
 */
 void allTCP() {
   int choice = -1;
-    while(choice <0 || choice >1) {
-        printf("Enter '0' to make a TCP server or '1' for a TCP client\n");
+    while(choice !=0 && choice !=1 && choice !=6) {
+        printf("Enter '0' to make a TCP server, '1' for a TCP client or '6' to scrap a webpage\n");
         inputTreatement(scanf("%d",&choice));
     }
+    //if it's client or server
+    if(choice<6) {
     int port = choosePortNumber();
     //server
     if(choice ==0) {
@@ -23,6 +25,14 @@ void allTCP() {
     // client
     else {
       TCPclient(port);
+    }
+    }
+    //choice ==6, scrapping
+    else {
+      char domain [100];
+      printf("Enter the domain name for example 'google.com'\n");
+      inputTreatement(scanf("%[^\n]",domain));
+      TCPscraping(domain);
     }
 }
 
@@ -116,6 +126,101 @@ int TCPclient(int port) {
       inputTreatement(scanf("%d",&run));
     }
     return 1;
+}
+
+/*
+Gets the content of a web page based on an url given by the user
+*/
+int TCPscraping(char * url) {
+  char ip [100];
+  if( getIpAddress(url,ip) ==-1) {
+    return -1;
+  }
+  if(connectToAddress(ip) !=0) {
+    return -1;
+  }
+    //Exemple :
+    // getIpAddress("google.com");
+    // connectToAddress("216.58.201.238");
+  return 0;
+}
+
+/*
+ Gets the ip address of a given domain name for exemple : google.com -> 216.58.201.238
+ */
+int getIpAddress(char *hostname,char ip[100] )
+{
+    struct hostent *he;
+    struct in_addr **addr_list;
+    int i;
+
+    if ((he = gethostbyname(hostname)) == NULL)
+    {
+        //gethostbyname failed
+        herror("gethostbyname");
+        return -1;
+    }
+
+    //Cast the h_addr_list to in_addr , since h_addr_list also has the ip address in long format only
+    addr_list = (struct in_addr **)he->h_addr_list;
+
+    for (i = 0; addr_list[i] != NULL; i++)
+    {
+        //Return the first one;
+        strcpy(ip, inet_ntoa(*addr_list[i]));
+    }
+
+    printf("%s resolved to : %s", hostname, ip);
+    return 0;
+}
+
+/*
+Connects to the ip address and ask for the main webpage to print it in the shell
+*/
+int connectToAddress(char *add)
+{
+    int socket_desc;
+    struct sockaddr_in server;
+    // Address Family - AF_INET (this is IP version 4)
+    // Type - SOCK_STREAM (this means connection oriented TCP protocol)
+    // Protocol - 0 [ or IPPROTO_IP This is IP protocol]
+    socket_desc = socket(AF_INET, SOCK_STREAM, 0);
+
+    if (socket_desc == -1)
+    {
+        printf("Echec de la création de socket");
+    }
+    server.sin_addr.s_addr = inet_addr(add);
+    server.sin_family = AF_INET;
+    server.sin_port = htons(80);
+
+    //Connect to remote server
+    if (connect(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
+    {
+        puts("connect error");
+        return 1;
+    }
+    //Send some data
+    char *message = "GET / HTTP/1.1\r\n\r\n";
+    // The message is actually a http command to fetch the mainpage of a website.
+    if (send(socket_desc, message, strlen(message), 0) < 0)
+    {
+        puts("Send failed");
+        return 1;
+    }
+    puts("\nData Send\n");
+
+    //Receive a reply from the server
+    char server_reply[2000];
+    if (recv(socket_desc, server_reply, 2000, 0) < 0)
+    {
+        puts("recv failed");
+    }
+    puts("Reply received\n");
+    puts(server_reply);
+
+    puts("\nConnected");
+    return 0;
 }
 
 // gérer les short :
