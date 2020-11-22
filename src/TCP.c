@@ -48,6 +48,10 @@ int TCPserver(int port) {
 	//bind
 	err = bind(s1, (struct sockaddr *)&ad, taille);
 	erreur(err, "bind");
+  //if the bind isn't successful
+  if(err<0){
+    return err;
+  }
 	//listen
 	err = listen(s1,2);
 	erreur(err, "listen");
@@ -95,6 +99,10 @@ int TCPclient(int port) {
       //connection du socket
       err = connect(s, (struct sockaddr *)&ad, sizeof(ad));
       erreur(err, "connect");
+      //if the connection isn't successful
+      if(err <0) {
+        return err;
+      }
       //send message
       char data [500];
       printf("What do you want to send to the server ?\n");

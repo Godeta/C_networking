@@ -2,7 +2,7 @@
 
 static void RunAllTests(void)
 {
-  RUN_TEST_GROUP(main);
+  RUN_TEST_GROUP(usefulFunctions);
   RUN_TEST_GROUP(TCP);
 }
 

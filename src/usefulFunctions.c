@@ -34,7 +34,7 @@ void erreur(int err, const char *msg)
     if (err == -1)
     {
         perror(msg);
-        exit(-1);
+        // exit(-1);
     }
     else {
 		printf("%s ok\n",msg);

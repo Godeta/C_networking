@@ -1,33 +1,33 @@
-#include "TCP.h"
+#include "../src/TCP.h"
 #include "unity.h"
 #include "unity_fixture.h"
 
 TEST_GROUP(TCP);
 
-/* These should be ignored because they are commented out in various ways:
-#include "whatever.h"
-*/
-//#include "somethingelse.h"
+//sometimes you may want to get at local data in a module.
+//for example: If you plan to pass by reference, this could be useful
+//however, it should often be avoided
+extern int Counter;
 
 TEST_SETUP(TCP)
 {
+  //This is run before EACH TEST
 }
 
 TEST_TEAR_DOWN(TCP)
 {
 }
 
-TEST(TCP, IgnoredTest)
+TEST(TCP, ServerWrongPort)
 {
-    TEST_IGNORE_MESSAGE("This Test Was Ignored On Purpose");
+  //All of these should pass
+  TEST_ASSERT_EQUAL(-1, TCPserver(20));
+  TEST_ASSERT_EQUAL(-1, TCPserver(14));
 }
 
-TEST(TCP, AnotherIgnoredTest)
+TEST(TCP, ClientWrongPort)
 {
-    TEST_IGNORE_MESSAGE("These Can Be Useful For Leaving Yourself Notes On What You Need To Do Yet");
-}
-
-TEST(TCP, ThisFunctionHasNotBeenTested_NeedsToBeImplemented)
-{
-    TEST_IGNORE(); //Like This
+  //All of these should pass
+  TEST_ASSERT_EQUAL(-1, TCPclient(-1));
+  TEST_ASSERT_EQUAL(-1, TCPclient(20));
 }

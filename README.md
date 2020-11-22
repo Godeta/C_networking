@@ -12,7 +12,7 @@ A small project allowing the user to make clients or server, send messages with 
     $ make clean
     
     # start the program
-    $ ./main
+    $ ./networking_C
 ```
 
 ![](affichage.gif)
