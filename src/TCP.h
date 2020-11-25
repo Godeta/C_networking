@@ -18,3 +18,5 @@ int TCPclient(int port);
 int TCPscraping(char* url);
 int getIpAddress(char *hostname, char ip[100]);
 int connectToAddress(char *add);
+// not very standard function, defined in <sys/socket.h> <netinet/in.h> <arpa/inet.h>, I put it in the header to not get a warning when compiling
+int inet_aton(const char *__cp, struct in_addr *__inp);

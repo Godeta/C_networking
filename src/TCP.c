@@ -51,7 +51,7 @@ int TCPserver(int port) {
   ad.sin_port = htons(port);
   err = inet_aton("127.0.0.1", &ad.sin_addr);
   erreur(err, "inet_aton");
-  int taille = sizeof(ad);
+  unsigned int taille = sizeof(ad);
   //ipv4, type de transmission, protocole unique par défaut
 	int s1 = socket(AF_INET,SOCK_STREAM, 0); 
 	erreur(s1, "socket");
@@ -67,7 +67,8 @@ int TCPserver(int port) {
 	erreur(err, "listen");
 	//accept
 	while(run<1) { 
-		int cli = accept(s1, (struct sockaddr *)&ad, &taille );
+    unsigned int * ptaille = &taille;
+		int cli = accept(s1, (struct sockaddr *)&ad, ptaille );
 		erreur(cli, "accept");
 		printf("Client @ : %s:%d\n", inet_ntoa(ad.sin_addr), ntohs(ad.sin_port));
     //reading the client message
@@ -157,7 +158,7 @@ int getIpAddress(char *hostname,char ip[100] )
     if ((he = gethostbyname(hostname)) == NULL)
     {
         //gethostbyname failed
-        herror("gethostbyname");
+        perror("gethostbyname");
         return -1;
     }
 
@@ -186,7 +187,7 @@ int connectToAddress(char *add)
     // Protocol - 0 [ or IPPROTO_IP This is IP protocol]
     socket_desc = socket(AF_INET, SOCK_STREAM, 0);
 
-    if (socket_desc == -1)
+    if (socket_desc == -3)
     {
         printf("Echec de la création de socket");
     }
@@ -198,7 +199,7 @@ int connectToAddress(char *add)
     if (connect(socket_desc, (struct sockaddr *)&server, sizeof(server)) < 0)
     {
         puts("connect error");
-        return 1;
+        return -1;
     }
     //Send some data
     char *message = "GET / HTTP/1.1\r\n\r\n";
@@ -206,7 +207,7 @@ int connectToAddress(char *add)
     if (send(socket_desc, message, strlen(message), 0) < 0)
     {
         puts("Send failed");
-        return 1;
+        return -2;
     }
     puts("\nData Send\n");
 

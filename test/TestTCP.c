@@ -31,3 +31,16 @@ TEST(TCP, ClientWrongPort)
   TEST_ASSERT_EQUAL(-1, TCPclient(-1));
   TEST_ASSERT_EQUAL(-1, TCPclient(20));
 }
+
+TEST(TCP, scraping_getipAdress_connectToAdress)
+{
+  //All of these should pass
+  char truc[100];
+  TEST_ASSERT_EQUAL(-1, getIpAddress("aaa",truc));
+  TEST_ASSERT_EQUAL(0, getIpAddress("google.com",truc));
+  TEST_ASSERT_EQUAL(-1,connectToAddress("a1d"));
+  TEST_ASSERT_EQUAL(-1,connectToAddress("google.com"));
+  TEST_ASSERT_EQUAL(0,connectToAddress("216.58.201.238"));
+  // TEST_ASSERT_EQUAL(0,TCPscraping("google.com"));
+  TEST_ASSERT_EQUAL(-1,TCPscraping("yes"));
+}
