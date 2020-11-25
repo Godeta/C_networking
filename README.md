@@ -24,4 +24,4 @@ In the terminal of a linux distribution (if you are using windows you can downlo
     $ make tests
 ```
 
-![](affichage.gif)
+![](affichageProjet.gif)
