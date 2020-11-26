@@ -24,7 +24,7 @@ void chooseProtocol() {
     }
     //UDP
     if(choice ==0) {
-        
+        allUDP();
     }
     //TCP
     else {

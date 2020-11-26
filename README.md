@@ -9,7 +9,7 @@ In the terminal of a linux distribution (if you are using windows you can downlo
     $ git clone https://github.com/Godeta/C_networking.git
 
     #go inside the folder
-    cd C_networking
+    $ cd C_networking
 
     # compile the program and execute the tests
     $ make

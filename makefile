@@ -42,6 +42,7 @@ SRC_FILES1=\
   $(UNITY_ROOT)/unity_fixture.c \
   src/usefulFunctions.c \
   src/TCP.c \
+  src/UDP.c \
   test/TestUsefulFunc.c \
   test/TestTCP.c \
   test/test_runners/TestUsefulFunc_Runner.c \
@@ -53,6 +54,7 @@ SRC_FILES2=\
   $(UNITY_ROOT)/unity_fixture.c \
   src/usefulFunctions.c \
   src/TCP.c \
+  src/UDP.c \
   src/main.c
 INC_DIRS=-Isrc -I$(UNITY_ROOT)
 SYMBOLS=-DUNITY_FIXTURE_NO_EXTRAS
